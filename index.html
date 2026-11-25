@@ -18,11 +18,12 @@
     <span class="nav__tag">Fan Project</span>
   </a>
   <nav class="nav__links" id="navLinks">
-    <a href="#story">Story</a>
     <a href="#trailer">Trailer</a>
+    <a href="#story">Story</a>
+    <a href="#people">Locals</a>
     <a href="#gameplay">Gameplay</a>
     <a href="#map">Map</a>
-    <a href="#footer">About</a>
+    <a href="#ride">Ride or Die</a>
   </nav>
   <a href="#trailer" class="nav__btn" data-play>Watch trailer</a>
   <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
@@ -30,18 +31,25 @@
 
 <main id="top">
 
-  <!-- 1. HERO -->
-  <section class="hero" id="hero">
-    <img class="hero__bg" src="assets/hero-bg.jpg" alt="" />
-    <div class="hero__shade"></div>
-    <div class="hero__content">
-      <h1 class="display hero__title"><span class="line"><span>Grand Theft Auto VI</span></span></h1>
-      <p class="hero__text">Grand Theft Auto VI immerses players in a dynamic metropolis, blending crime, corruption, and chaos. Navigating a rich narrative, players explore diverse characters vying for power, wealth, and survival in a fictional city teeming with life.</p>
+  <!-- 1. HERO (intro collage) -->
+  <section class="intro" id="hero">
+    <div class="intro__glow"></div>
+    <div class="collage" id="collage">
+      <figure class="tile t1 ph-1"><img src="assets/vi/hero-1.jpg" alt="" /></figure>
+      <figure class="tile t2 ph-2"><img src="assets/vi/hero-2.jpg" alt="" /></figure>
+      <figure class="tile t3 ph-3"><img src="assets/vi/hero-3.jpg" alt="" /></figure>
+      <figure class="tile t4 ph-4"><img src="assets/vi/hero-4.jpg" alt="" /></figure>
+      <figure class="tile t5 ph-5"><img src="assets/vi/hero-5.jpg" alt="" /></figure>
+      <figure class="tile t6 ph-6"><img src="assets/vi/hero-6.jpg" alt="" /></figure>
+      <figure class="tile t7 ph-7"><img src="assets/vi/hero-7.jpg" alt="" /></figure>
+      <figure class="tile t8 ph-8"><img src="assets/vi/hero-8.jpg" alt="" /></figure>
+      <div class="collage__mark"><img src="assets/logo.png" alt="GTA VI logo" /><span class="logo-fallback logo-fallback--xl">VI</span></div>
     </div>
-    <img class="hero__art" src="assets/hero-art.png" alt="Jason and Lucia" />
-    <ul class="platforms hero__platforms">
-      <li>PS5</li><li>Xbox Series X|S</li><li>PC</li>
-    </ul>
+    <div class="intro__meta">
+      <div class="intro__date"><span class="eyebrow">Coming</span><strong>November 19, 2026</strong></div>
+      <a href="#trailer" class="btn btn--pink intro__btn" data-play>Watch Trailer</a>
+      <div class="intro__platforms">PlayStation 5<br/>Xbox Series X|S</div>
+    </div>
   </section>
 
   <!-- 2. WE WAITED 12 YEARS -->
@@ -80,7 +88,22 @@
     </div>
   </section>
 
-  <!-- 5. GAMEPLAY -->
+  <!-- 5. MEET THE LOCALS (horizontal scroll) -->
+  <section class="people" id="people">
+    <div class="people__stage">
+      <div class="people__head">
+        <div>
+          <span class="eyebrow">Meet the locals</span>
+          <h2 class="display people__title">Everyone has<br/>something to gain</h2>
+        </div>
+        <p class="people__intro">Vice City is full of people chasing the dream. Some hustle, some scheme, and everyone has an angle.</p>
+      </div>
+      <div class="people__track" id="track"></div>
+      <div class="people__bar"><span id="bar"></span></div>
+    </div>
+  </section>
+
+  <!-- 6. GAMEPLAY -->
   <section class="gameplay" id="gameplay">
     <div class="gameplay__head">
       <h2 class="display sec-title">Gameplay</h2>
@@ -92,7 +115,7 @@
     </div>
   </section>
 
-  <!-- 6. COMING SOON -->
+  <!-- 7. COMING SOON -->
   <section class="soon" id="map">
     <div class="soon__stage">
       <div class="soon__bg"><img src="assets/bg-vault.jpg" alt="" /></div>
@@ -138,13 +161,29 @@
     </div>
   </section>
 
-  <!-- 7. FOOTER -->
+  <!-- 8. RIDE OR DIE -->
+  <section class="ride" id="ride">
+    <div class="ride__stage">
+      <h2 class="display ride__word ride__word--l">Ride</h2>
+      <h2 class="display ride__word ride__word--r">or die.</h2>
+      <figure class="ride__card rc1 ph-5"><img src="assets/vi/ride-1.jpg" alt="" /></figure>
+      <figure class="ride__card rc3 ph-7"><img src="assets/vi/ride-3.jpg" alt="" /></figure>
+      <figure class="ride__card rc2 ph-sunset"><img src="assets/vi/ride-2.jpg" alt="Jason and Lucia" /></figure>
+      <div class="ride__final">
+        <div class="wall__mark"><img src="assets/logo.png" alt="GTA VI logo" /><span class="logo-fallback logo-fallback--lg">VI</span></div>
+        <p class="display wall__date"><span class="grad">Coming</span> November 19, 2026</p>
+        <div class="wall__btns"><a href="#trailer" class="btn btn--pink" data-play>Watch Trailer</a><a href="#top" class="btn btn--ghost">Back to Top</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. FOOTER -->
   <footer class="footer" id="footer">
     <div class="footer__mark display" aria-hidden="true">VI</div>
     <p class="footer__note">An unofficial fan project made for learning and practice. Not affiliated with, endorsed by, or connected to Rockstar Games or Take-Two Interactive. All game artwork and trademarks belong to their respective owners.</p>
     <div class="footer__cols">
       <div><h4>Explore</h4><a href="#story">Story</a><a href="#trailer">Trailer</a><a href="#gameplay">Gameplay</a></div>
-      <div><h4>World</h4><a href="#map">Map</a><a href="#hero">Characters</a></div>
+      <div><h4>World</h4><a href="#map">Map</a><a href="#people">Meet the locals</a><a href="#ride">Ride or Die</a></div>
       <div><h4>Project</h4><a href="#footer">About this site</a><a href="#top">Back to top</a></div>
     </div>
     <div class="footer__bar">

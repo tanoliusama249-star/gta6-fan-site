@@ -2,6 +2,31 @@
    GTA VI fan site: motion (GSAP + ScrollTrigger, Lenis smooth scroll)
    ============================================================ */
 gsap.registerPlugin(ScrollTrigger);
+
+/* ---------- characters for "Meet the locals" (edit names, bios and images here) ---------- */
+const CHARACTERS = [
+  { name: "Jason & Lucia", img: "assets/vi/char-1.jpg", bio: "Two people with nothing to lose, one score away from getting out for good.", ph: 7 },
+  { name: "Real Dimez",    img: "assets/vi/char-2.jpg", bio: "Best friends who turned going viral into a full-time hustle on Ocean Drive.", ph: 5 },
+  { name: "The Crew",      img: "assets/vi/char-3.jpg", bio: "Fixers, dealers and dreamers. Everyone in this town is working an angle.", ph: 8 },
+  { name: "Leonida Riders", img: "assets/vi/char-4.jpg", bio: "Chrome, leather and loyalty. They own the highway out past the Keys.", ph: 4 },
+  { name: "The Mechanic",  img: "assets/vi/char-5.jpg", bio: "Parts bought and sold, no questions asked. Ask anyway and the price goes up.", ph: 6 },
+];
+const track = document.getElementById("track");
+CHARACTERS.forEach(c => {
+  const a = document.createElement("article");
+  a.className = "card";
+  a.innerHTML = `
+    <div class="card__img ph-${c.ph}"><img src="${c.img}" alt="${c.name}" /></div>
+    <h3 class="display card__name">${c.name.split(" ").join("<br/>")}</h3>
+    <div class="card__info"><h3>${c.name}</h3><p>${c.bio}</p></div>`;
+  track.appendChild(a);
+});
+// image fallbacks: a gradient shows if a picture is missing
+document.querySelectorAll("img").forEach(img => {
+  const miss = () => img.classList.add("is-missing");
+  if (img.complete && img.naturalWidth === 0) miss();
+  img.addEventListener("error", miss);
+});
 const RECORDING = location.search.includes("record");
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = matchMedia("(pointer: fine)").matches;
@@ -94,20 +119,27 @@ if (finePointer && !reduce) {
   gsap.set(cursor, { x: innerWidth * 0.62, y: innerHeight * 0.58 });
 }
 
-/* ---------- 1. hero intro ---------- */
+/* ---------- 1. hero: tiles fly in and lock into the collage ---------- */
+const tiles = gsap.utils.toArray(".tile");
 const intro = gsap.timeline({ defaults: { ease: "expo.out" } });
 intro
-  .from(".hero__bg", { opacity: 0, scale: 1.12, duration: 2.2, ease: "power2.out" })
-  .from(".hero__title .line > span", { yPercent: 110, duration: 1.3 }, 0.9)
-  .from(".hero__text", { y: 24, opacity: 0, duration: 1.1 }, 1.15)
-  .from(".hero__art", { yPercent: 18, opacity: 0, duration: 1.6 }, 1.0)
-  .from(".hero__platforms li", { y: 20, opacity: 0, stagger: 0.08, duration: 1 }, 1.4)
-  .from(".nav", { yPercent: -100, opacity: 0, duration: 1 }, 1.2);
+  .from(tiles, {
+    x: () => gsap.utils.random(-55, 55) + "vw",
+    y: () => gsap.utils.random(-45, 45) + "vh",
+    rotation: () => gsap.utils.random(-25, 25),
+    scale: 0.45, opacity: 0, filter: "blur(10px)",
+    duration: 1.8, stagger: { each: 0.08, from: "random" }
+  })
+  .from(".collage__mark", { scale: 1.8, opacity: 0, duration: 1.4 }, "-=1.1")
+  .from(".intro__meta > *", { y: 24, opacity: 0, duration: 1, stagger: 0.08 }, "-=1")
+  .from(".nav", { y: -30, opacity: 0, duration: 1 }, "-=1");
 
-gsap.timeline({ scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } })
-  .to(".hero__content", { yPercent: -60, opacity: 0, ease: "none" }, 0)
-  .to(".hero__art", { yPercent: 12, scale: 1.06, ease: "none" }, 0)
-  .to(".hero__bg", { scale: 1.12, ease: "none" }, 0);
+gsap.to(".collage", {
+  scale: 0.82, y: "-6vh", opacity: 0, ease: "none",
+  scrollTrigger: { trigger: ".intro", start: "top top", end: "bottom top", scrub: true }
+});
+gsap.to(".intro__meta", { opacity: 0, y: -30, ease: "none",
+  scrollTrigger: { trigger: ".intro", start: "top top", end: "40% top", scrub: true } });
 
 /* ---------- 2. "we waited 12 years" ---------- */
 const line = document.getElementById("waitedLine");
@@ -143,7 +175,27 @@ gsap.timeline({ scrollTrigger: { trigger: ".story", start: "top 80%", end: "bott
   .fromTo(".story__bg img", { scale: 1.12 }, { scale: 1, duration: 1, ease: "none" }, 0)
   .to({}, { duration: 0.1 });
 
-/* ---------- 5. gameplay: film strips drift in opposite directions ---------- */
+
+/* ---------- 5. meet the locals: vertical scroll becomes horizontal ---------- */
+const getShift = () => track.scrollWidth - window.innerWidth;
+const peopleST = { trigger: ".people", start: "top top", end: () => "+=" + getShift() * 1.1, scrub: 1, invalidateOnRefresh: true };
+const trackTween = gsap.to(track, { x: () => -getShift(), ease: "none",
+  scrollTrigger: { ...peopleST, pin: ".people__stage" } });
+gsap.to("#bar", { width: "100%", ease: "none", scrollTrigger: { ...peopleST } });
+gsap.utils.toArray(".card").forEach(card => {
+  gsap.fromTo(card.querySelector(".card__img img"), { xPercent: -6 }, {
+    xPercent: 6, ease: "none",
+    scrollTrigger: { trigger: card, containerAnimation: trackTween, start: "left right", end: "right left", scrub: true }
+  });
+  gsap.from(card.querySelector(".card__name"), {
+    yPercent: 40, opacity: 0, ease: "power3.out",
+    scrollTrigger: { trigger: card, containerAnimation: trackTween, start: "left 85%", end: "left 45%", scrub: true }
+  });
+});
+gsap.from(".people__title, .people__intro", { y: 50, opacity: 0, stagger: 0.1, duration: 1, ease: "power3.out",
+  scrollTrigger: { trigger: ".people", start: "top 70%" } });
+
+/* ---------- 6. gameplay: film strips drift in opposite directions ---------- */
 const FILM = ["film-1", "film-2", "film-3", "film-4", "film-5", "film-6", "film-7", "film-8"];
 const buildStrip = (el, order, startNo) => {
   el.innerHTML = order.concat(order).map((n, i) => `
@@ -158,7 +210,7 @@ gsap.timeline({ scrollTrigger: { trigger: ".gameplay", start: "top bottom", end:
   .fromTo("#film1", { xPercent: 0 }, { xPercent: -28, ease: "none" }, 0)
   .fromTo("#film2", { xPercent: -30 }, { xPercent: -2, ease: "none" }, 0);
 
-/* ---------- 6. coming soon: map card lands, then becomes the product card ---------- */
+/* ---------- 7. coming soon: map card lands, then becomes the product card ---------- */
 gsap.timeline({ scrollTrigger: { trigger: ".soon", start: "top 70%", end: "bottom bottom", scrub: 1, invalidateOnRefresh: true } })
   .fromTo(".soon__head > *", { y: 60, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.03, duration: 0.1 }, 0)
   .fromTo("#panel", { rotationX: 32, rotationZ: -6, scale: 1.35, yPercent: -8 },
@@ -171,7 +223,30 @@ gsap.timeline({ scrollTrigger: { trigger: ".soon", start: "top 70%", end: "botto
   .fromTo(".panel__product > *", { y: 30, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.02, duration: 0.1, immediateRender: false }, 0.62)
   .to({}, { duration: 0.2 });
 
-/* ---------- 7. footer ---------- */
+
+/* ---------- 8. ride or die: the centre card grows to full screen ---------- */
+const rc2 = document.querySelector(".rc2");
+const fill = () => Math.max(innerWidth / rc2.offsetWidth, innerHeight / rc2.offsetHeight) * 1.03;
+gsap.set([".ride__word", ".ride__card"], { opacity: 0 });
+gsap.set(".ride__word--l", { xPercent: -40 });
+gsap.set(".ride__word--r", { xPercent: 40 });
+gsap.set(".ride__card", { yPercent: 30 });
+const rd = gsap.timeline({
+  defaults: { immediateRender: false },
+  scrollTrigger: { trigger: ".ride", start: "top 75%", end: "bottom bottom", scrub: 1, invalidateOnRefresh: true }
+});
+rd.to(".ride__word--l", { xPercent: 0, opacity: 1, duration: 0.18, ease: "power3.out" }, 0)
+  .to(".ride__word--r", { xPercent: 0, opacity: 1, duration: 0.18, ease: "power3.out" }, 0)
+  .to(".ride__card", { yPercent: 0, opacity: 1, stagger: 0.03, duration: 0.18, ease: "power3.out" }, 0.03)
+  .to(".rc1", { xPercent: -260, rotation: -14, duration: 0.4, ease: "power2.in" }, 0.36)
+  .to(".rc3", { xPercent: 260, rotation: 14, duration: 0.4, ease: "power2.in" }, 0.36)
+  .to(".ride__word--l", { xPercent: -70, opacity: 0, duration: 0.36, ease: "power2.in" }, 0.36)
+  .to(".ride__word--r", { xPercent: 70, opacity: 0, duration: 0.36, ease: "power2.in" }, 0.36)
+  .to(rc2, { scale: fill, borderRadius: 0, duration: 0.42, ease: "power2.inOut" }, 0.38)
+  .fromTo(".ride__final", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 0.84)
+  .fromTo(".ride__final > *", { y: 40 }, { y: 0, stagger: 0.02, duration: 0.12 }, 0.84);
+
+/* ---------- 9. footer ---------- */
 gsap.from(".footer__mark", { yPercent: 25, opacity: 0, ease: "none",
   scrollTrigger: { trigger: ".footer", start: "top bottom", end: "bottom bottom", scrub: true } });
 

@@ -14,7 +14,7 @@
 
 ## About
 
-A single-page fan site recreating the feel of a modern game launch page: pinned scenes, a giant sliding headline, a full-screen trailer with a custom cursor, slanted story cards, film strips and a map that turns into a product card.
+A single-page fan site recreating the feel of a modern game launch page: a self-assembling collage hero, a giant sliding headline, a full-screen trailer with a custom cursor, slanted story cards, a horizontal character carousel, film strips, a map that turns into a product card, and a full-screen "Ride or Die" finale.
 
 Everything is hand-written HTML, CSS and JavaScript — no framework, no build step.
 
@@ -22,12 +22,14 @@ Everything is hand-written HTML, CSS and JavaScript — no framework, no build s
 
 | Section | What happens |
 | --- | --- |
-| **Hero** | Background push-in, line-mask title reveal, character art rises in |
+| **Hero** | Eight image tiles fly in from scattered positions and lock into a collage around the logo |
 | **"We waited 12 years"** | Giant tilted headline scrubs sideways; a *Watch trailer* disc follows the cursor |
 | **Trailer** | Full-screen video, ring cursor toggles **Pause / Play**, letter-by-letter credit with chromatic glow |
 | **New Story** | Two slanted cards tilt into place, then their white frames draw on |
+| **Meet the locals** | Vertical scroll drives a pinned horizontal character carousel with parallax images and a progress bar |
 | **Gameplay** | Two film strips drift in opposite directions on scroll |
 | **Coming Soon** | A 3D-tilted map card lands, then morphs into the product card |
+| **Ride or Die** | The words split apart, side cards fly off, and the centre artwork grows to full screen |
 
 Also: smooth scrolling, auto-hiding nav, mobile menu, `prefers-reduced-motion` support.
 
