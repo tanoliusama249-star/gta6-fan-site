@@ -240,7 +240,8 @@ img.is-missing { display: none; }
 .ride__word--l { left: 4vw; transform: translateY(-60%); }
 .ride__word--r { right: 4vw; transform: translateY(-20%); }
 .ride__word--r { background: var(--sun); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.ride__card { position: absolute; left: 50%; top: 50%; border-radius: 6px; box-shadow: 0 30px 80px rgba(0,0,0,.6); z-index: 2; will-change: transform; }
+.ride__card { position: absolute; left: 50%; top: 50%; border-radius: 6px; box-shadow: 0 30px 80px rgba(0,0,0,.6); z-index: 2; }
+.ride__card:not(.rc2) { will-change: transform; }
 .rc1 { width: 18vw; aspect-ratio: 3 / 4; transform: translate(-150%, -46%) rotate(-6deg); }
 .rc3 { width: 16vw; aspect-ratio: 3 / 4; transform: translate(55%, -40%) rotate(5deg); }
 .rc2 { width: 24vw; aspect-ratio: 3 / 4; transform: translate(-50%, -50%); z-index: 3; }
