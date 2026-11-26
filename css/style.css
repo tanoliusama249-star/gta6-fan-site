@@ -14,7 +14,7 @@
   --vi-pink: #ffb2c6;
   --vi-pink-ink: #2a0c17;
   --sun: linear-gradient(180deg, #ffd36e 0%, #ff8a5b 45%, #ff4f9a 100%);
-  --nav-h: 72px;
+  --nav-h: 84px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: var(--bg); }
@@ -71,7 +71,7 @@ html.is-loading, html.is-loading body { overflow: hidden; }
 .loader__line { position: absolute; left: 0; top: 0; height: 1px; width: 100%; background: linear-gradient(90deg, #4038ad, #d63e92, #d9732e); transform: scaleX(0); transform-origin: left; }
 
 /* ---------- nav ---------- */
-.nav { position: fixed; inset: 0 0 auto 0; z-index: 50; height: 72px; padding: 0 clamp(16px, 2.6vw, 40px); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; transition: background .4s, transform .5s; }
+.nav { position: fixed; inset: 0 0 auto 0; z-index: 50; height: 84px; padding-top: 6px; padding: 0 clamp(16px, 2.6vw, 40px); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; transition: background .4s, transform .5s; }
 .nav.is-solid { background: rgba(10,10,10,.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
 .nav.is-hidden { transform: translateY(-100%); }
 .nav__brand { display: flex; align-items: center; gap: 14px; }
@@ -292,7 +292,7 @@ img.is-missing { display: none; }
   .nav { grid-template-columns: 1fr auto; }
   .nav__btn { display: none; }
   .nav__burger { display: block; }
-  .nav__links { position: fixed; inset: 72px 0 auto 0; flex-direction: column; gap: 0; background: rgba(10,10,10,.96); padding: 8px 16px 20px; transform: translateY(-120%); transition: transform .45s cubic-bezier(.7,0,.2,1); }
+  .nav__links { position: fixed; inset: 84px 0 auto 0; flex-direction: column; gap: 0; background: rgba(10,10,10,.96); padding: 8px 16px 20px; transform: translateY(-120%); transition: transform .45s cubic-bezier(.7,0,.2,1); }
   .nav__links a { padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 18px; }
   .nav.is-open .nav__links { transform: none; }
   .nav__tag { display: none; }

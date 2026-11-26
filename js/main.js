@@ -123,16 +123,19 @@ if (finePointer && !reduce) {
 const tiles = gsap.utils.toArray(".tile");
 const intro = gsap.timeline({ paused: true, defaults: { ease: "expo.out" } });
 intro
-  .from(tiles, {
+  .fromTo(tiles, {
     x: () => gsap.utils.random(-55, 55) + "vw",
     y: () => gsap.utils.random(-45, 45) + "vh",
     rotation: () => gsap.utils.random(-25, 25),
-    scale: 0.45, opacity: 0, filter: "blur(10px)",
+    scale: 0.45, opacity: 0, filter: "blur(10px)"
+  }, {
+    x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, filter: "blur(0px)",
     duration: 1.8, stagger: { each: 0.08, from: "random" }
   })
-  .from(".collage__mark", { scale: 1.8, opacity: 0, duration: 1.4 }, "-=1.1")
-  .from(".intro__meta > *", { y: 24, opacity: 0, duration: 1, stagger: 0.08 }, "-=1")
-  .from(".nav", { y: -30, opacity: 0, duration: 1 }, "-=1");
+  .fromTo(".collage__mark", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.4 }, "-=1.1")
+  .fromTo(".intro__meta > *", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: 0.08 }, "-=1")
+  // explicit end values: the header always lands at the top of the screen, fully visible
+  .fromTo(".nav", { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, clearProps: "transform" }, "-=1");
 
 /* ---------- loader: cinematic 3s opening ----------
    letterbox + grain -> a lens-flare streak opens across the screen -> the logo's gradient
