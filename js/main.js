@@ -150,7 +150,7 @@ gsap.timeline({
   }
 })
   .fromTo("#loaderLogo", { scale: 0.86, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, 0)
-  .fromTo("#loaderGlow", { scale: 0 }, { scale: 1.45, duration: LOAD_TIME, ease: "power2.inOut" }, 0)
+  .fromTo("#loaderGlow", { "--r": 0 }, { "--r": 110, duration: LOAD_TIME, ease: "power2.inOut" }, 0)
   .to(counter, { v: 100, duration: LOAD_TIME, ease: "power2.inOut",
     onUpdate: () => { loaderNum.textContent = Math.round(counter.v); } }, 0)
   .to("#loaderLogo", { scale: 1.06, duration: LOAD_TIME - 0.6, ease: "sine.inOut" }, 0.6)

@@ -43,9 +43,14 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 html.is-loading, html.is-loading body { overflow: hidden; }
 .loader { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; overflow: hidden; background: #07050b; }
 .loader__glow {
-  position: absolute; left: 50%; top: 50%; width: 150vmax; height: 150vmax; margin: -75vmax 0 0 -75vmax; border-radius: 50%;
-  background: radial-gradient(circle, #ffc4d8 0%, #ff8ab8 22%, #ff5fa2 42%, #e23d8c 58%, rgba(226,61,140,.35) 66%, rgba(226,61,140,0) 72%);
-  transform: scale(0); will-change: transform;
+  /* the VI logo's own gradient, ~18% darker, revealed by a soft circle that grows from the centre */
+  --r: 0;
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(60% 55% at 50% 50%, rgba(255,255,255,.14), transparent 70%),
+    linear-gradient(180deg, #5048a9 0%, #9b44a9 26%, #cf5491 50%, #d16c6e 74%, #d17e42 100%);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 calc(var(--r) * 1vmax - 14vmax), transparent calc(var(--r) * 1vmax));
+          mask-image: radial-gradient(circle at 50% 50%, #000 calc(var(--r) * 1vmax - 14vmax), transparent calc(var(--r) * 1vmax));
 }
 .loader__logo { position: relative; width: clamp(200px, 26vw, 380px); height: auto; will-change: transform; }
 .loader__count { position: absolute; right: clamp(16px, 3vw, 40px); bottom: clamp(16px, 3vw, 34px); font-size: clamp(40px, 6vw, 96px); line-height: 1; color: #fff; opacity: .92; }

@@ -22,7 +22,7 @@ Everything is hand-written HTML, CSS and JavaScript — no framework, no build s
 
 | Section | What happens |
 | --- | --- |
-| **Loader** | A pink glow grows behind a black VI logo for 3 seconds with a 0–100 counter, then the screen lifts away |
+| **Loader** | A glow in the logo's violet-pink-orange gradient grows behind a black VI logo for 3 seconds with a 0–100 counter, then the screen lifts away |
 | **Hero** | Eight image tiles fly in from scattered positions and lock into a collage around the logo |
 | **"We waited 12 years"** | Giant tilted headline scrubs sideways; a *Watch trailer* disc follows the cursor |
 | **Trailer** | Full-screen video, ring cursor toggles **Pause / Play**, letter-by-letter credit with chromatic glow |
