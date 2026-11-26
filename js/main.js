@@ -134,14 +134,19 @@ intro
   .from(".intro__meta > *", { y: 24, opacity: 0, duration: 1, stagger: 0.08 }, "-=1")
   .from(".nav", { y: -30, opacity: 0, duration: 1 }, "-=1");
 
-/* ---------- loader: pink glow grows behind the black logo for 3s, then reveals the hero ---------- */
+/* ---------- loader: cinematic 3s opening ----------
+   letterbox + grain -> a lens-flare streak opens across the screen -> the logo's gradient
+   grows from behind the black logo while the logo eases out of a blur -> a soft flash ->
+   the frame closes to a thin line like a shutter and the hero collage flies in underneath */
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 scrollTo(0, 0);
 if (lenis) lenis.stop();
 const LOAD_TIME = reduce ? 1 : 3;
 const counter = { v: 0 };
 const loaderNum = document.getElementById("loaderNum");
+const T = LOAD_TIME / 3;   // scales every beat if the duration changes
 gsap.timeline({
+  defaults: { ease: "power2.out" },
   onComplete: () => {
     document.documentElement.classList.remove("is-loading");
     document.getElementById("loader").remove();
@@ -149,16 +154,29 @@ gsap.timeline({
     ScrollTrigger.refresh();
   }
 })
-  .fromTo("#loaderLogo", { scale: 0.86, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, 0)
-  .fromTo("#loaderGlow", { "--r": 0 }, { "--r": 110, duration: LOAD_TIME, ease: "power2.inOut" }, 0)
-  .to(counter, { v: 100, duration: LOAD_TIME, ease: "power2.inOut",
-    onUpdate: () => { loaderNum.textContent = Math.round(counter.v); } }, 0)
-  .to("#loaderLogo", { scale: 1.06, duration: LOAD_TIME - 0.6, ease: "sine.inOut" }, 0.6)
-  // exit: logo punches in, the whole screen lifts away, the collage starts flying in underneath
-  .to("#loaderLogo", { scale: 0.9, opacity: 0, duration: 0.45, ease: "power2.in" }, LOAD_TIME)
-  .to(".loader__count", { opacity: 0, duration: 0.3 }, LOAD_TIME)
-  .to("#loader", { yPercent: -100, duration: 0.9, ease: "expo.inOut" }, LOAD_TIME + 0.15)
-  .add(() => intro.play(), LOAD_TIME + 0.45);
+  // letterbox bars slide in, captions breathe in with wide tracking
+  .from(".loader__bar--top", { yPercent: -100, duration: 0.7 * T, ease: "power3.out" }, 0)
+  .from(".loader__bar--bot", { yPercent: 100, duration: 0.7 * T, ease: "power3.out" }, 0)
+  .fromTo(".loader__cap", { opacity: 0, letterSpacing: "1.2em" }, { opacity: 1, letterSpacing: "0.5em", duration: 1.6 * T, ease: "power2.out" }, 0.2 * T)
+  // progress line + counter
+  .to("#loaderLine", { scaleX: 1, duration: LOAD_TIME, ease: "power1.inOut" }, 0)
+  .to(counter, { v: 100, duration: LOAD_TIME, ease: "power1.inOut",
+    onUpdate: () => { loaderNum.textContent = String(Math.round(counter.v)).padStart(3, "0"); } }, 0)
+  // lens flare streak opens across the screen, then softens
+  .to("#loaderFlare", { opacity: 1, scaleX: 1, duration: 0.9 * T, ease: "expo.out" }, 0.25 * T)
+  .to("#loaderFlare", { opacity: 0, scaleY: 6, duration: 1.2 * T, ease: "power2.in" }, 1.3 * T)
+  // gradient light grows from behind the logo
+  .fromTo("#loaderGlow", { "--r": 0 }, { "--r": 115, duration: 2.5 * T, ease: "power2.inOut" }, 0.45 * T)
+  // slow push-in: the logo comes out of a blur
+  .fromTo("#loaderLogo", { scale: 1.22, opacity: 0, filter: "blur(14px)" },
+                         { scale: 1, opacity: 1, filter: "blur(0px)", duration: 2.2 * T, ease: "power3.out" }, 0.35 * T)
+  // soft flash at the peak
+  .to("#loaderFlash", { opacity: 0.45, duration: 0.12, ease: "power1.in" }, LOAD_TIME - 0.12)
+  .to("#loaderFlash", { opacity: 0, duration: 0.45, ease: "power2.out" }, LOAD_TIME)
+  // shutter: the whole frame closes to a thin line and vanishes, revealing the hero
+  .to("#loaderLogo", { scale: 0.92, duration: 0.5, ease: "power2.in" }, LOAD_TIME)
+  .to("#loader", { clipPath: "inset(50% 0% 50% 0%)", duration: 0.85, ease: "expo.inOut" }, LOAD_TIME + 0.1)
+  .add(() => intro.play(), LOAD_TIME + 0.4);
 
 gsap.to(".collage", {
   scale: 0.82, y: "-6vh", opacity: 0, ease: "none",

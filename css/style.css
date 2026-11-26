@@ -39,22 +39,36 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 @media (pointer: fine) { [data-cursor] { cursor: none; } }
 @media (pointer: coarse) { .cursor { display: none; } }
 
-/* ---------- loader ---------- */
+/* ---------- loader (cinematic) ---------- */
 html.is-loading, html.is-loading body { overflow: hidden; }
-.loader { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; overflow: hidden; background: #07050b; }
+.loader { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; overflow: hidden; background: #050308; clip-path: inset(0% 0 0% 0); }
+/* the VI logo's own gradient, deeper and richer, revealed by a soft circle that grows from behind the logo */
 .loader__glow {
-  /* the VI logo's own gradient, deeper and more saturated, revealed by a soft circle that grows from the centre */
   --r: 0;
   position: absolute; inset: 0;
   background:
     radial-gradient(60% 55% at 50% 50%, rgba(255,255,255,.10), transparent 70%),
     linear-gradient(180deg, #4038ad 0%, #9233a8 26%, #d63e92 50%, #dc5664 74%, #d9732e 100%);
-  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 calc(var(--r) * 1vmax - 14vmax), transparent calc(var(--r) * 1vmax));
-          mask-image: radial-gradient(circle at 50% 50%, #000 calc(var(--r) * 1vmax - 14vmax), transparent calc(var(--r) * 1vmax));
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 calc(var(--r) * 1vmax - 16vmax), transparent calc(var(--r) * 1vmax));
+          mask-image: radial-gradient(circle at 50% 50%, #000 calc(var(--r) * 1vmax - 16vmax), transparent calc(var(--r) * 1vmax));
 }
-.loader__logo { position: relative; width: clamp(200px, 26vw, 380px); height: auto; will-change: transform; }
-.loader__count { position: absolute; right: clamp(16px, 3vw, 40px); bottom: clamp(16px, 3vw, 34px); font-size: clamp(40px, 6vw, 96px); line-height: 1; color: #fff; opacity: .92; }
-.loader__count small { font-size: .4em; margin-left: 4px; vertical-align: top; }
+.loader__glow::after { content: ""; position: absolute; inset: 0; background: radial-gradient(75% 70% at 50% 50%, transparent 55%, rgba(5,3,8,.55) 100%); }
+/* anamorphic lens flare: a thin horizontal light streak behind the logo */
+.loader__flare { position: absolute; left: 50%; top: 50%; width: 130vw; height: 2px; margin-left: -65vw; transform: scaleX(0); opacity: 0; pointer-events: none; }
+.loader__flare i { position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,170,210,.0) 8%, rgba(255,190,225,.9) 42%, #fff 50%, rgba(255,190,225,.9) 58%, rgba(255,170,210,0) 92%, transparent); box-shadow: 0 0 18px 3px rgba(255,120,190,.65), 0 0 60px 10px rgba(160,90,255,.35); }
+.loader__logo { position: relative; width: clamp(200px, 26vw, 380px); height: auto; will-change: transform, filter; }
+.loader__flash { position: absolute; inset: 0; background: #fff3f8; opacity: 0; pointer-events: none; }
+/* film grain */
+.loader__grain { position: absolute; inset: -50%; opacity: .09; pointer-events: none; animation: grain .5s steps(4) infinite;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+@keyframes grain { 0% { transform: translate(0,0); } 25% { transform: translate(-6%,4%); } 50% { transform: translate(5%,-3%); } 75% { transform: translate(-3%,-6%); } 100% { transform: translate(4%,5%); } }
+/* letterbox bars */
+.loader__bar { position: absolute; left: 0; right: 0; height: 11vh; background: #000; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(16px, 3vw, 44px); z-index: 2; }
+.loader__bar--top { top: 0; justify-content: center; }
+.loader__bar--bot { bottom: 0; }
+.loader__cap { font-family: var(--body); font-size: 11px; font-weight: 500; letter-spacing: .5em; text-transform: uppercase; color: rgba(255,255,255,.7); opacity: 0; }
+.loader__count { font-family: var(--body); font-variant-numeric: tabular-nums; font-size: 12px; letter-spacing: .3em; color: rgba(255,255,255,.75); }
+.loader__line { position: absolute; left: 0; top: 0; height: 1px; width: 100%; background: linear-gradient(90deg, #4038ad, #d63e92, #d9732e); transform: scaleX(0); transform-origin: left; }
 
 /* ---------- nav ---------- */
 .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; height: 72px; padding: 0 clamp(16px, 2.6vw, 40px); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; transition: background .4s, transform .5s; }
