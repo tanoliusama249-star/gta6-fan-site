@@ -43,12 +43,12 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 html.is-loading, html.is-loading body { overflow: hidden; }
 .loader { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; overflow: hidden; background: #07050b; }
 .loader__glow {
-  /* the VI logo's own gradient, ~18% darker, revealed by a soft circle that grows from the centre */
+  /* the VI logo's own gradient, deeper and more saturated, revealed by a soft circle that grows from the centre */
   --r: 0;
   position: absolute; inset: 0;
   background:
-    radial-gradient(60% 55% at 50% 50%, rgba(255,255,255,.14), transparent 70%),
-    linear-gradient(180deg, #5048a9 0%, #9b44a9 26%, #cf5491 50%, #d16c6e 74%, #d17e42 100%);
+    radial-gradient(60% 55% at 50% 50%, rgba(255,255,255,.10), transparent 70%),
+    linear-gradient(180deg, #4038ad 0%, #9233a8 26%, #d63e92 50%, #dc5664 74%, #d9732e 100%);
   -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 calc(var(--r) * 1vmax - 14vmax), transparent calc(var(--r) * 1vmax));
           mask-image: radial-gradient(circle at 50% 50%, #000 calc(var(--r) * 1vmax - 14vmax), transparent calc(var(--r) * 1vmax));
 }
