@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="is-loading">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +8,13 @@
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+
+<!-- loader: black VI logo with a pink glow growing behind it (3s), then it lifts away -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__glow" id="loaderGlow"></div>
+  <img class="loader__logo" id="loaderLogo" src="assets/logo-black.png" alt="" />
+  <div class="loader__count display"><span id="loaderNum">0</span><small>%</small></div>
+</div>
 
 <!-- custom cursor (desktop only): "Watch trailer" disc and "Pause/Play" ring -->
 <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__label" id="cursorLabel">Watch<br/>Trailer</span></div>

@@ -121,7 +121,7 @@ if (finePointer && !reduce) {
 
 /* ---------- 1. hero: tiles fly in and lock into the collage ---------- */
 const tiles = gsap.utils.toArray(".tile");
-const intro = gsap.timeline({ defaults: { ease: "expo.out" } });
+const intro = gsap.timeline({ paused: true, defaults: { ease: "expo.out" } });
 intro
   .from(tiles, {
     x: () => gsap.utils.random(-55, 55) + "vw",
@@ -133,6 +133,32 @@ intro
   .from(".collage__mark", { scale: 1.8, opacity: 0, duration: 1.4 }, "-=1.1")
   .from(".intro__meta > *", { y: 24, opacity: 0, duration: 1, stagger: 0.08 }, "-=1")
   .from(".nav", { y: -30, opacity: 0, duration: 1 }, "-=1");
+
+/* ---------- loader: pink glow grows behind the black logo for 3s, then reveals the hero ---------- */
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+scrollTo(0, 0);
+if (lenis) lenis.stop();
+const LOAD_TIME = reduce ? 1 : 3;
+const counter = { v: 0 };
+const loaderNum = document.getElementById("loaderNum");
+gsap.timeline({
+  onComplete: () => {
+    document.documentElement.classList.remove("is-loading");
+    document.getElementById("loader").remove();
+    if (lenis) lenis.start();
+    ScrollTrigger.refresh();
+  }
+})
+  .fromTo("#loaderLogo", { scale: 0.86, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, 0)
+  .fromTo("#loaderGlow", { scale: 0 }, { scale: 1.45, duration: LOAD_TIME, ease: "power2.inOut" }, 0)
+  .to(counter, { v: 100, duration: LOAD_TIME, ease: "power2.inOut",
+    onUpdate: () => { loaderNum.textContent = Math.round(counter.v); } }, 0)
+  .to("#loaderLogo", { scale: 1.06, duration: LOAD_TIME - 0.6, ease: "sine.inOut" }, 0.6)
+  // exit: logo punches in, the whole screen lifts away, the collage starts flying in underneath
+  .to("#loaderLogo", { scale: 0.9, opacity: 0, duration: 0.45, ease: "power2.in" }, LOAD_TIME)
+  .to(".loader__count", { opacity: 0, duration: 0.3 }, LOAD_TIME)
+  .to("#loader", { yPercent: -100, duration: 0.9, ease: "expo.inOut" }, LOAD_TIME + 0.15)
+  .add(() => intro.play(), LOAD_TIME + 0.45);
 
 gsap.to(".collage", {
   scale: 0.82, y: "-6vh", opacity: 0, ease: "none",
